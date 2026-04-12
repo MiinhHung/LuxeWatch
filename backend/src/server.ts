@@ -12,6 +12,10 @@ import wishlistRoutes from './routes/wishlist.routes';
 import uploadRoutes from './routes/upload.routes';
 import userRoutes from './routes/user.routes';
 import subscriptionRoutes from './routes/subscription.routes';
+import messageRoutes from './routes/message.routes';
+import couponRoutes from './routes/coupon.routes';
+import blogRoutes from './routes/blog.routes';
+
 import { errorHandler, notFound } from './middlewares/errorHandler';
 
 dotenv.config();
@@ -40,6 +44,10 @@ app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/uploads', uploadRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/coupons', couponRoutes);
+app.use('/api/blogs', blogRoutes);
+
 
 // Error Handling
 app.use(notFound);

@@ -21,12 +21,22 @@ export const createPaymentUrl = async (req: AuthRequest, res: Response) => {
     }
 
     const date = new Date();
-    const createDate = dateformat(date, 'yyyymmddHHmmss');
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    const createDate = date.getFullYear().toString() +
+                       pad(date.getMonth() + 1) +
+                       pad(date.getDate()) +
+                       pad(date.getHours()) +
+                       pad(date.getMinutes()) +
+                       pad(date.getSeconds());
     
     // Add Expire Date (15 minutes)
-    const expireDateRaw = new Date();
-    expireDateRaw.setMinutes(expireDateRaw.getMinutes() + 15);
-    const expireDate = dateformat(expireDateRaw, 'yyyymmddHHmmss');
+    const expireDateRaw = new Date(date.getTime() + 15 * 60000);
+    const expireDate = expireDateRaw.getFullYear().toString() +
+                       pad(expireDateRaw.getMonth() + 1) +
+                       pad(expireDateRaw.getDate()) +
+                       pad(expireDateRaw.getHours()) +
+                       pad(expireDateRaw.getMinutes()) +
+                       pad(expireDateRaw.getSeconds());
 
     let ipAddr = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1';
     if (Array.isArray(ipAddr)) {

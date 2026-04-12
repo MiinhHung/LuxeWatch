@@ -61,24 +61,47 @@ const AdminProductsScreen = () => {
                 <th style={{ padding: '15px 10px', textTransform: 'uppercase', fontSize: '0.8rem' }}>NAME</th>
                 <th style={{ padding: '15px 10px', textTransform: 'uppercase', fontSize: '0.8rem' }}>PRICE</th>
                 <th style={{ padding: '15px 10px', textTransform: 'uppercase', fontSize: '0.8rem' }}>CATEGORY</th>
+                <th style={{ padding: '15px 10px', textTransform: 'uppercase', fontSize: '0.8rem' }}>STOCK</th>
                 <th style={{ padding: '15px 10px', textTransform: 'uppercase', fontSize: '0.8rem' }}>ACTIONS</th>
               </tr>
             </thead>
             <tbody>
-              {products.map(product => (
-                <tr key={product.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                  <td style={{ padding: '20px 10px', color: 'var(--text-secondary)' }}>#{product.id}</td>
-                  <td style={{ padding: '20px 10px', fontWeight: 500 }}>{product.name}</td>
-                  <td style={{ padding: '20px 10px', color: 'var(--accent-gold)' }}>${product.price}</td>
-                  <td style={{ padding: '20px 10px' }}>{product.category?.name}</td>
-                  <td style={{ padding: '20px 10px' }}>
-                    <div style={{ display: 'flex', gap: '10px' }}>
-                      <Link to={`/admin/product/${product.id}/edit`} className="btn-outline" style={{ padding: '6px 12px', fontSize: '0.8rem', textDecoration: 'none' }}>Edit</Link>
-                      <button onClick={() => deleteHandler(product.id)} className="btn-outline" style={{ padding: '6px 12px', fontSize: '0.8rem', borderColor: 'var(--danger)', color: 'var(--danger)' }}>Delete</button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {products.map(product => {
+                const isOutOfStock = product.stock <= 0;
+                const isLowStock = product.stock > 0 && product.stock < 10;
+
+                return (
+                  <tr key={product.id} style={{ 
+                    borderBottom: '1px solid rgba(255,255,255,0.05)',
+                    background: isOutOfStock ? 'rgba(239, 68, 68, 0.05)' : isLowStock ? 'rgba(212, 175, 55, 0.03)' : 'transparent',
+                    transition: 'all 0.3s'
+                  }}>
+                    <td style={{ padding: '20px 10px', color: 'var(--text-secondary)' }}>#{product.id}</td>
+                    <td style={{ padding: '20px 10px', fontWeight: 500 }}>
+                      {product.name}
+                      {isOutOfStock && <span style={{ marginLeft: '10px', color: 'var(--danger)', fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', background: 'rgba(239, 68, 68, 0.1)', padding: '2px 6px', borderRadius: '4px' }}>Out of Stock</span>}
+                      {isLowStock && <span style={{ marginLeft: '10px', color: 'var(--accent-gold)', fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', background: 'rgba(212, 175, 55, 0.1)', padding: '2px 6px', borderRadius: '4px' }}>Low Stock</span>}
+                    </td>
+
+                    <td style={{ padding: '20px 10px', color: 'var(--accent-gold)' }}>${product.price}</td>
+                    <td style={{ padding: '20px 10px' }}>{product.category?.name}</td>
+                    <td style={{ padding: '20px 10px' }}>
+                      <span style={{ 
+                        fontWeight: 700, 
+                        color: isOutOfStock ? 'var(--danger)' : isLowStock ? 'var(--accent-gold)' : 'white'
+                      }}>
+                        {product.stock}
+                      </span>
+                    </td>
+                    <td style={{ padding: '20px 10px' }}>
+                      <div style={{ display: 'flex', gap: '10px' }}>
+                        <Link to={`/admin/product/${product.id}/edit`} className="btn-outline" style={{ padding: '6px 12px', fontSize: '0.8rem', textDecoration: 'none' }}>Edit</Link>
+                        <button onClick={() => deleteHandler(product.id)} className="btn-outline" style={{ padding: '6px 12px', fontSize: '0.8rem', borderColor: 'var(--danger)', color: 'var(--danger)' }}>Delete</button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         )}

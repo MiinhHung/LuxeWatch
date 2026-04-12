@@ -16,10 +16,12 @@ const storage = multer.diskStorage({
 
 const fileFilter = (req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
   const ext = path.extname(file.originalname).toLowerCase();
-  if (['.jpg', '.jpeg', '.png', '.webp', '.gif'].includes(ext)) {
+  const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.jfif', '.avif', '.svg'];
+  
+  if (allowedExtensions.includes(ext)) {
     cb(null, true);
   } else {
-    cb(new Error('Only image files are allowed'));
+    cb(new Error(`File type ${ext} not allowed. Please upload an image.`));
   }
 };
 

@@ -62,25 +62,40 @@ const HomeScreen = () => {
           minHeight: '80vh',
           display: 'flex',
           alignItems: 'center',
-          background: 'linear-gradient(to right, rgba(0,0,0,0.85), rgba(0,0,0,0.3)), url("https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=2000")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
+          position: 'relative',
+          overflow: 'hidden',
           marginTop: '80px'
         }}
       >
-        <div className="container animate-slide-up delay-100">
+        {/* Video Background */}
+        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: -2, overflow: 'hidden', pointerEvents: 'none' }}>
+           <iframe 
+             src="https://www.youtube.com/embed/wgwQT6aJd5s?autoplay=1&mute=1&loop=1&playlist=bMeiywxAtLU,0YvWawNKPcc&controls=0&rel=0" 
+             style={{ position: 'absolute', top: '50%', left: '50%', width: '100vw', height: '100vh', transform: 'translate(-50%, -50%) scale(1.5)' }} 
+             frameBorder="0" allow="autoplay; encrypted-media"></iframe>
+        </div>
+        {/* Dark Overlay */}
+        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(to right, rgba(0,0,0,0.85), rgba(0,0,0,0.4))', zIndex: -1 }}></div>
+
+        <div className="container animate-slide-up delay-100" style={{ position: 'relative', zIndex: 1 }}>
           <h1 className="glow-text" style={{ fontSize: '5rem', marginBottom: '20px', lineHeight: 1.1 }}>
             Elegance <br />in Time
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', maxWidth: '600px', marginBottom: '40px' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', maxWidth: '600px', marginBottom: '20px' }}>
             Discover our curated collection of luxury timepieces engineered for precision and designed for prestige. Make a statement today.
           </p>
+          <div style={{ marginBottom: '40px', borderLeft: '2px solid var(--accent-gold)', paddingLeft: '15px' }}>
+             <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--accent-gold)', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: 600 }}>
+               Exclusive Offer
+             </p>
+             <p style={{ margin: 0, fontSize: '1.1rem', color: 'white' }}>
+               Use code <span style={{ color: 'var(--accent-gold)', fontWeight: 700 }}>WELCOME</span> for $500 off your acquisition
+             </p>
+          </div>
           <div style={{ display: 'flex', gap: '20px', marginBottom: '40px' }}>
             <button className="btn-primary" onClick={() => window.location.href = '/catalog'}>
               Explore Collection
             </button>
-            <button className="btn-outline" onClick={() => setShowVideo(true)}>Watch Video</button>
           </div>
 
           <form
@@ -153,6 +168,125 @@ const HomeScreen = () => {
                 <p style={{ fontSize: '1.5rem', color: 'var(--accent-gold)', fontStyle: 'italic', margin: 0 }}>"Time is the ultimate luxury."</p>
              </div>
           </div>
+        </div>
+      </section>
+
+      {/* Customer Reviews Section */}
+      <section className="container" style={{ padding: '80px 20px', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '2.5rem', marginBottom: '60px', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 300 }}>Customer Reviews</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
+          
+          {/* Review 1: Ronaldo */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ 
+              background: '#C2A368', 
+              padding: '30px', 
+              borderRadius: '8px', 
+              position: 'relative',
+              marginBottom: '30px',
+              color: '#222',
+              textAlign: 'left',
+              minHeight: '160px',
+              boxShadow: '0 4px 15px rgba(0,0,0,0.3)'
+            }}>
+              <p style={{ margin: 0, fontSize: '0.95rem', lineHeight: 1.6, fontWeight: 500 }}>
+                "LuxeTime is my go-to place for high-end timepieces. The level of service and the exclusivity of their collection is truly unmatched. A perfect experience every time."
+              </p>
+              <div style={{
+                position: 'absolute',
+                bottom: '-15px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '0',
+                height: '0',
+                borderLeft: '15px solid transparent',
+                borderRight: '15px solid transparent',
+                borderTop: '15px solid #C2A368'
+              }}></div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+              <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&q=80&w=150&h=150" alt="Cristiano Ronaldo" style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover' }} />
+              <div style={{ textAlign: 'left' }}>
+                <h4 style={{ margin: 0, fontSize: '1.1rem', color: 'white' }}>Cristiano Ronaldo</h4>
+                <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Footballer</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Review 2: Neymar Jr */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ 
+              background: '#C2A368', 
+              padding: '30px', 
+              borderRadius: '8px', 
+              position: 'relative',
+              marginBottom: '30px',
+              color: '#222',
+              textAlign: 'left',
+              minHeight: '160px',
+              boxShadow: '0 4px 15px rgba(0,0,0,0.3)'
+            }}>
+              <p style={{ margin: 0, fontSize: '0.95rem', lineHeight: 1.6, fontWeight: 500 }}>
+                "Với tôi, những chiếc đồng hồ không chỉ là món đồ thời trang mà còn là niềm đam mê lớn. LuxeTime luôn cung cấp những sản phẩm quý hiếm với tốc độ và dịch vụ chăm sóc đáng kinh ngạc."
+              </p>
+              <div style={{
+                position: 'absolute',
+                bottom: '-15px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '0',
+                height: '0',
+                borderLeft: '15px solid transparent',
+                borderRight: '15px solid transparent',
+                borderTop: '15px solid #C2A368'
+              }}></div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+              <img src="https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?auto=format&fit=crop&q=80&w=150&h=150" alt="Neymar Jr" style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover' }} />
+              <div style={{ textAlign: 'left' }}>
+                <h4 style={{ margin: 0, fontSize: '1.1rem', color: 'white' }}>Neymar Jr</h4>
+                <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Footballer</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Review 3: Messi */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ 
+              background: '#C2A368', 
+              padding: '30px', 
+              borderRadius: '8px', 
+              position: 'relative',
+              marginBottom: '30px',
+              color: '#222',
+              textAlign: 'left',
+              minHeight: '160px',
+              boxShadow: '0 4px 15px rgba(0,0,0,0.3)'
+            }}>
+              <p style={{ margin: 0, fontSize: '0.95rem', lineHeight: 1.6, fontWeight: 500 }}>
+                "Mỗi khi cần tìm một món quà đặc biệt hoặc thêm vào bộ sưu tập cá nhân, tôi luôn chọn cửa hàng này. Sự tỉ mỉ trong quá trình tư vấn và chất lượng sản phẩm thực sự hoàn hảo."
+              </p>
+              <div style={{
+                position: 'absolute',
+                bottom: '-15px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '0',
+                height: '0',
+                borderLeft: '15px solid transparent',
+                borderRight: '15px solid transparent',
+                borderTop: '15px solid #C2A368'
+              }}></div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+              <img src="https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?auto=format&fit=crop&q=80&w=150&h=150" alt="Lionel Messi" style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover' }} />
+              <div style={{ textAlign: 'left' }}>
+                <h4 style={{ margin: 0, fontSize: '1.1rem', color: 'white' }}>Lionel Messi</h4>
+                <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Footballer</span>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 

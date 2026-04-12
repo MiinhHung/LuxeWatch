@@ -7,16 +7,34 @@ import { AuthRequest } from '../middlewares/authMiddleware';
 // @access  Private
 export const addOrderItems = async (req: AuthRequest, res: Response) => {
   try {
-    const { orderItems, shippingAddress, totalAmount, paymentMethod } = req.body;
+    const { orderItems, shippingAddress, totalAmount, paymentMethod, couponCode } = req.body;
 
     if (orderItems && orderItems.length === 0) {
       res.status(400);
       throw new Error('No order items');
     } else {
+      let finalTotal = totalAmount;
+      let discountValue = 0;
+
+      // Validate coupon if provided
+      if (couponCode) {
+        const coupon = await prisma.coupon.findUnique({
+          where: { code: couponCode, isActive: true },
+        });
+
+        if (coupon) {
+          discountValue = Number(coupon.discountAmount);
+          finalTotal = totalAmount - discountValue;
+          if (finalTotal < 0) finalTotal = 0;
+        }
+      }
+
       const order = await prisma.order.create({
         data: {
           userId: req.user!.id,
-          totalAmount,
+          totalAmount: finalTotal,
+          discountAmount: discountValue,
+          couponCode: couponCode || null,
           paymentMethod: paymentMethod || 'vnpay',
           shippingAddress: JSON.stringify(shippingAddress),
           orderItems: {
@@ -141,7 +159,20 @@ export const getMyOrders = async (req: AuthRequest, res: Response) => {
 export const getOrders = async (req: AuthRequest, res: Response) => {
   try {
     const orders = await prisma.order.findMany({
-      include: { user: { select: { id: true, fullName: true } }, orderItems: true },
+      include: { 
+        user: { select: { id: true, fullName: true } }, 
+        orderItems: {
+          include: {
+            product: {
+              select: {
+                id: true,
+                name: true,
+                stock: true
+              }
+            }
+          }
+        } 
+      },
       orderBy: { createdAt: 'desc' },
     });
     res.json(orders);

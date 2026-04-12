@@ -21,20 +21,22 @@ const PaymentResultScreen = () => {
         return;
       }
 
-      if (!orderId || !responseCode) {
+      if (!responseCode) {
         setLoading(false);
         setMessage('Missing transaction details.');
         return;
       }
 
       try {
-        if (responseCode === '00') {
-           await axios.put(`http://localhost:5000/api/orders/${orderId}/pay`);
+        // Correct way: Send all VNPay params back to backend for signature verification
+        const { data } = await axios.get(`http://localhost:5000/api/payments/verify?${searchParams.toString()}`);
+        
+        if (data.success) {
            setSuccess(true);
-           setMessage(`Order #${orderId} has been successfully authenticated. Your luxury timepiece will be prepared immediately.`);
+           setMessage(`Order authenticated. Your luxury timepiece will be prepared immediately.`);
         } else {
            setSuccess(false);
-           setMessage('The transaction could not be completed. Please attempt authentication again.');
+           setMessage(data.message || 'The transaction could not be completed. Please attempt authentication again.');
         }
       } catch (err) {
         console.error(err);
@@ -44,7 +46,7 @@ const PaymentResultScreen = () => {
       }
     };
     verify();
-  }, [orderId, responseCode, method]);
+  }, [searchParams, method, responseCode]);
 
   return (
     <div className="container" style={{ marginTop: '150px', textAlign: 'center', minHeight: '60vh' }}>
