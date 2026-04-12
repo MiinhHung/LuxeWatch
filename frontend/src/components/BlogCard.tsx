@@ -10,7 +10,7 @@ const BlogCard = ({ post }: BlogCardProps) => {
     <div className="glass-card" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <div style={{ position: 'relative', height: '240px', overflow: 'hidden' }}>
         <img 
-          src={post.image.startsWith('/uploads') ? `http://localhost:5000${post.image}` : post.image} 
+          src={post.image.startsWith('/uploads') ? `${API_URL}${post.image}` : post.image} 
           alt={post.title} 
           style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }} 
           className="blog-card-img"

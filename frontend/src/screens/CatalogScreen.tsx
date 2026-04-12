@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import API_URL from '../config';
 import ProductCard from '../components/ProductCard';
 import { Search, SlidersHorizontal, X } from 'lucide-react';
 
@@ -22,8 +23,8 @@ const CatalogScreen = () => {
     const fetchFilters = async () => {
       try {
         const [catData, brandData] = await Promise.all([
-          axios.get('http://localhost:5000/api/categories'),
-          axios.get('http://localhost:5000/api/brands')
+          axios.get('${API_URL}/api/categories'),
+          axios.get('${API_URL}/api/brands')
         ]);
         setCategories(catData.data);
         setBrands(brandData.data);
@@ -45,7 +46,7 @@ const CatalogScreen = () => {
           minPrice: searchParams.get('minPrice') || '',
           maxPrice: searchParams.get('maxPrice') || '',
         };
-        const { data } = await axios.get('http://localhost:5000/api/products', { params });
+        const { data } = await axios.get('${API_URL}/api/products', { params });
         setProducts(data.products || []);
         setLoading(false);
       } catch (error) {

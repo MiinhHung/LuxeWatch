@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_URL from '../config';
 import { toast } from 'react-toastify';
 import { Trash2, Shield, User } from 'lucide-react';
 
@@ -11,7 +12,7 @@ const AdminUsersScreen = () => {
     try {
       const userInfo = JSON.parse(localStorage.getItem('userInfo')!);
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-      const { data } = await axios.get('http://localhost:5000/api/users', config);
+      const { data } = await axios.get('${API_URL}/api/users', config);
       setUsers(data);
       setLoading(false);
     } catch (error) {
@@ -29,7 +30,7 @@ const AdminUsersScreen = () => {
       try {
         const userInfo = JSON.parse(localStorage.getItem('userInfo')!);
         const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-        await axios.delete(`http://localhost:5000/api/users/${id}`, config);
+        await axios.delete(`${API_URL}/api/users/${id}`, config);
         toast.success('User deleted successfully');
         fetchUsers();
       } catch (error: any) {
@@ -43,7 +44,7 @@ const AdminUsersScreen = () => {
     try {
       const userInfo = JSON.parse(localStorage.getItem('userInfo')!);
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-      await axios.put(`http://localhost:5000/api/users/${id}/role`, { role: newRole }, config);
+      await axios.put(`${API_URL}/api/users/${id}/role`, { role: newRole }, config);
       toast.success('User role updated');
       fetchUsers();
     } catch (error: any) {

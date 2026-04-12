@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import API_URL from '../config';
 import { toast } from 'react-toastify';
 import ProductCard from '../components/ProductCard';
 import { Heart } from 'lucide-react';
@@ -12,7 +13,7 @@ const WishlistScreen = () => {
   const fetchWishlist = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-      const { data } = await axios.get('http://localhost:5000/api/wishlist', config);
+      const { data } = await axios.get('${API_URL}/api/wishlist', config);
       setWishlistItems(data.items || []);
       setLoading(false);
     } catch (error) {
@@ -31,7 +32,7 @@ const WishlistScreen = () => {
   const removeFromWishlistHandler = async (productId: number) => {
     try {
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-      await axios.delete(`http://localhost:5000/api/wishlist/${productId}`, config);
+      await axios.delete(`${API_URL}/api/wishlist/${productId}`, config);
       toast.success('Removed from wishlist');
       fetchWishlist();
     } catch (error) {

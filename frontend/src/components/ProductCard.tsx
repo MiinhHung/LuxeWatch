@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Star, Heart } from 'lucide-react';
 import axios from 'axios';
+import API_URL from '../config';
 import { toast } from 'react-toastify';
 
 interface ProductProps {
@@ -42,7 +43,7 @@ const ProductCard = ({ product }: ProductProps) => {
             if (!userInfo) return toast.error('Please login to save favorites');
             try {
               const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-              await axios.post('http://localhost:5000/api/wishlist', { productId: product.id }, config);
+              await axios.post('${API_URL}/api/wishlist', { productId: product.id }, config);
               toast.success('Added to wishlist!');
             } catch (err) {
               toast.error('Already in wishlist or failed');

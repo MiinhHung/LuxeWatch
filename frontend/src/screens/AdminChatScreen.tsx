@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import API_URL from '../config';
 import { Send, User, ChevronLeft } from 'lucide-react';
 
 interface Message {
@@ -33,7 +34,7 @@ const AdminChatScreen = () => {
     const fetchConversations = async () => {
       try {
         const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-        const { data } = await axios.get('http://localhost:5000/api/messages/admin/conversations', config);
+        const { data } = await axios.get('${API_URL}/api/messages/admin/conversations', config);
         setConversations(data);
       } catch (error) {
         console.error('Failed to fetch conversations', error);
@@ -49,7 +50,7 @@ const AdminChatScreen = () => {
     const fetchMessages = async (userId: number) => {
       try {
         const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-        const { data } = await axios.get(`http://localhost:5000/api/messages/${userId}`, config);
+        const { data } = await axios.get(`${API_URL}/api/messages/${userId}`, config);
         setMessages(data);
       } catch (error) {
         console.error('Failed to fetch messages', error);
@@ -77,7 +78,7 @@ const AdminChatScreen = () => {
     setLoading(true);
     try {
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-      const { data } = await axios.post('http://localhost:5000/api/messages', {
+      const { data } = await axios.post('${API_URL}/api/messages', {
         receiverId: selectedUser.id,
         content: newMessage
       }, config);

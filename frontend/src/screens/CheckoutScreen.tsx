@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_URL from '../config';
 import { toast } from 'react-toastify';
 
 const CheckoutScreen = () => {
@@ -23,7 +24,7 @@ const CheckoutScreen = () => {
     try {
       const userInfo = JSON.parse(localStorage.getItem('userInfo')!);
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-      const { data } = await axios.post('http://localhost:5000/api/coupons/validate', { code: couponCode }, config);
+      const { data } = await axios.post('${API_URL}/api/coupons/validate', { code: couponCode }, config);
       setDiscount(data.discountAmount);
       setIsCouponApplied(true);
       toast.success(`Coupon applied! You saved $${data.discountAmount}`);
@@ -61,7 +62,7 @@ const CheckoutScreen = () => {
       const totalAmount = subtotal - discount;
 
       const { data: orderData } = await axios.post(
-        'http://localhost:5000/api/orders',
+        '${API_URL}/api/orders',
         {
           orderItems,
           shippingAddress: { address, city, postalCode },
@@ -84,7 +85,7 @@ const CheckoutScreen = () => {
       toast.success('Order generated! Redirecting to secure VNPAY checkout...');
 
       const { data: payData } = await axios.post(
-        'http://localhost:5000/api/payments/create_payment_url',
+        '${API_URL}/api/payments/create_payment_url',
         {
           orderId: orderData.id,
           amount: totalAmount, // Use discounted amount

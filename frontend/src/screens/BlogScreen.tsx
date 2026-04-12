@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_URL from '../config';
 import BlogCard from '../components/BlogCard';
 
 const BlogScreen = () => {
@@ -14,8 +15,8 @@ const BlogScreen = () => {
       try {
         setLoading(true);
         const url = activeCategory === 'All' 
-          ? 'http://localhost:5000/api/blogs' 
-          : `http://localhost:5000/api/blogs?category=${activeCategory}`;
+          ? '${API_URL}/api/blogs' 
+          : `${API_URL}/api/blogs?category=${activeCategory}`;
         const { data } = await axios.get(url);
         setPosts(data);
       } catch (error) {

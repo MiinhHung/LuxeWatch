@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import API_URL from '../config';
 import { toast } from 'react-toastify';
 import { Plus, Edit, Trash2, Link as LinkIcon, Calendar } from 'lucide-react';
 
@@ -11,7 +12,7 @@ const AdminBlogsScreen = () => {
 
   const fetchPosts = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/blogs');
+      const { data } = await axios.get('${API_URL}/api/blogs');
       setPosts(data);
       setLoading(false);
     } catch (error) {
@@ -29,7 +30,7 @@ const AdminBlogsScreen = () => {
       try {
         const userInfo = JSON.parse(localStorage.getItem('userInfo')!);
         const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-        await axios.delete(`http://localhost:5000/api/blogs/${id}`, config);
+        await axios.delete(`${API_URL}/api/blogs/${id}`, config);
         toast.success('Article removed successfully');
         fetchPosts();
       } catch (error: any) {

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import API_URL from '../config';
 import { toast } from 'react-toastify';
 
 const AdminProductEditScreen = () => {
@@ -26,14 +27,14 @@ const AdminProductEditScreen = () => {
     const fetchData = async () => {
       try {
         const [catData, brandData] = await Promise.all([
-          axios.get('http://localhost:5000/api/categories'),
-          axios.get('http://localhost:5000/api/brands')
+          axios.get('${API_URL}/api/categories'),
+          axios.get('${API_URL}/api/brands')
         ]);
         setCategories(catData.data);
         setBrands(brandData.data);
 
         if (id) {
-          const { data } = await axios.get(`http://localhost:5000/api/products/${id}`);
+          const { data } = await axios.get(`${API_URL}/api/products/${id}`);
           setName(data.name);
           setDescription(data.description);
           setPrice(data.price.toString());
@@ -66,13 +67,13 @@ const AdminProductEditScreen = () => {
       const formData = new FormData();
       formData.append('image', file);
       try {
-        const { data } = await axios.post('http://localhost:5000/api/uploads', formData, {
+        const { data } = await axios.post('${API_URL}/api/uploads', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${userInfo?.token}`
           }
         });
-        newUrls.push(`http://localhost:5000${data.url}`);
+        newUrls.push(`${API_URL}${data.url}`);
       } catch (err) {
         toast.error(`Failed to upload ${file.name}`);
       }
@@ -106,10 +107,10 @@ const AdminProductEditScreen = () => {
       };
 
       if (id) {
-        await axios.put(`http://localhost:5000/api/products/${id}`, productData, authConfig);
+        await axios.put(`${API_URL}/api/products/${id}`, productData, authConfig);
         toast.success('Product updated!');
       } else {
-        await axios.post('http://localhost:5000/api/products', productData, authConfig);
+        await axios.post('${API_URL}/api/products', productData, authConfig);
         toast.success('Product created!');
       }
       navigate('/admin/productlist');

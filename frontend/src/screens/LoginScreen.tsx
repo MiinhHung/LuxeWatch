@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import API_URL from '../config';
 import { toast } from 'react-toastify';
 import { Mail, Lock, LogIn, ArrowRight } from 'lucide-react';
 
@@ -19,7 +20,7 @@ const LoginScreen = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const { data } = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+      const { data } = await axios.post('${API_URL}/api/auth/login', { email, password });
       const userInfo = { ...data.user, token: data.token };
       localStorage.setItem('userInfo', JSON.stringify(userInfo));
       toast.success('Successfully logged in!');
