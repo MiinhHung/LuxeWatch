@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import API_URL from '../config';
 import { Star, ArrowLeft, ShoppingBag, User } from 'lucide-react';
 import { toast } from 'react-toastify';
 
@@ -21,7 +20,7 @@ const ProductScreen = () => {
 
   const fetchProduct = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/api/products/${id}`);
+      const { data } = await axios.get(`http://localhost:5000/api/products/${id}`);
       setProduct(data);
       setLoading(false);
     } catch (error) {
@@ -62,7 +61,7 @@ const ProductScreen = () => {
     setSubmitting(true);
     try {
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-      await axios.post(`${API_URL}/api/products/${id}/reviews`, { rating, comment }, config);
+      await axios.post(`http://localhost:5000/api/products/${id}/reviews`, { rating, comment }, config);
       toast.success('Review submitted successfully!');
       setComment('');
       fetchProduct(); // Refresh reviews

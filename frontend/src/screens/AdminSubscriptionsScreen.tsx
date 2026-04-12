@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import API_URL from '../config';
 import { toast } from 'react-toastify';
 import { Mail, Clock, Download } from 'lucide-react';
 
@@ -13,7 +12,7 @@ const AdminSubscriptionsScreen = () => {
   const fetchSubscriptions = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-      const { data } = await axios.get('${API_URL}/api/subscriptions', config);
+      const { data } = await axios.get('http://localhost:5000/api/subscriptions', config);
       setSubscriptions(data.subscriptions || []);
       setLoading(false);
     } catch (error) {

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import API_URL from '../config';
 import { toast } from 'react-toastify';
 import ProductCard from '../components/ProductCard';
 
@@ -12,7 +11,7 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const { data } = await axios.get('${API_URL}/api/products');
+        const { data } = await axios.get('http://localhost:5000/api/products');
         setProducts(data.products || []);
         setLoading(false);
       } catch (error) {
@@ -310,7 +309,7 @@ const HomeScreen = () => {
                 const email = (document.getElementById('sub-email') as HTMLInputElement).value;
                 if (!email) return toast.error('Please enter your email');
                 try {
-                  const { data } = await axios.post('${API_URL}/api/subscriptions', { email });
+                  const { data } = await axios.post('http://localhost:5000/api/subscriptions', { email });
                   toast.success(data.message);
                   (document.getElementById('sub-email') as HTMLInputElement).value = '';
                 } catch (error: any) {

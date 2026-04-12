@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import API_URL from '../config';
 import { ArrowLeft, Clock, Calendar, User, Share2 } from 'lucide-react';
 
 const BlogPostScreen = () => {
@@ -13,7 +12,7 @@ const BlogPostScreen = () => {
     const fetchPost = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(`${API_URL}/api/blogs/${slug}`);
+        const { data } = await axios.get(`http://localhost:5000/api/blogs/${slug}`);
         setPost(data);
       } catch (error) {
         console.error('Failed to fetch article', error);
@@ -42,7 +41,7 @@ const BlogPostScreen = () => {
       {/* Hero Section */}
       <div style={{ position: 'relative', height: '600px', width: '100%', overflow: 'hidden' }}>
         <img 
-          src={post.image.startsWith('/uploads') ? `${API_URL}${post.image}` : post.image} 
+          src={post.image.startsWith('/uploads') ? `http://localhost:5000${post.image}` : post.image} 
           alt={post.title} 
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />

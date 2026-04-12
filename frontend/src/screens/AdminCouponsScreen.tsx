@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import API_URL from '../config';
 import { toast } from 'react-toastify';
 import { Ticket, Trash2, Plus, Clock } from 'lucide-react';
 
@@ -22,7 +21,7 @@ const AdminCouponsScreen = () => {
     try {
       const userInfo = JSON.parse(localStorage.getItem('userInfo')!);
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-      const { data } = await axios.get('${API_URL}/api/coupons', config);
+      const { data } = await axios.get('http://localhost:5000/api/coupons', config);
       setCoupons(data);
       setLoading(false);
     } catch (error) {
@@ -40,7 +39,7 @@ const AdminCouponsScreen = () => {
     try {
       const userInfo = JSON.parse(localStorage.getItem('userInfo')!);
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-      await axios.post('${API_URL}/api/coupons', { code, discountAmount }, config);
+      await axios.post('http://localhost:5000/api/coupons', { code, discountAmount }, config);
       toast.success('Coupon created successfully');
       setCode('');
       setDiscountAmount('');
@@ -55,7 +54,7 @@ const AdminCouponsScreen = () => {
       try {
         const userInfo = JSON.parse(localStorage.getItem('userInfo')!);
         const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-        await axios.delete(`${API_URL}/api/coupons/${id}`, config);
+        await axios.delete(`http://localhost:5000/api/coupons/${id}`, config);
         toast.success('Coupon deleted successfully');
         fetchCoupons();
       } catch (error: any) {

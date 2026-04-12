@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import API_URL from '../config';
 import { TrendingUp, Users, ShoppingCart, DollarSign } from 'lucide-react';
 
 const AdminDashboardScreen = () => {
@@ -12,7 +11,7 @@ const AdminDashboardScreen = () => {
       try {
         const userInfo = JSON.parse(localStorage.getItem('userInfo')!);
         const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-        const { data } = await axios.get('${API_URL}/api/users/stats', config);
+        const { data } = await axios.get('http://localhost:5000/api/users/stats', config);
         setStats(data);
         setLoading(false);
       } catch (error) {

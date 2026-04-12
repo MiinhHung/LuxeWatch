@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import API_URL from '../config';
 import { MessageCircle, X, Send } from 'lucide-react';
 
 interface Message {
@@ -29,7 +28,7 @@ const Chatbox = () => {
       if (!userInfo || !isOpen) return;
       try {
         const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-        const { data } = await axios.get(`${API_URL}/api/messages/${ADMIN_ID}`, config);
+        const { data } = await axios.get(`http://localhost:5000/api/messages/${ADMIN_ID}`, config);
         setMessages(data);
       } catch (error) {
         console.error('Failed to fetch messages', error);
@@ -55,7 +54,7 @@ const Chatbox = () => {
     setLoading(true);
     try {
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-      const { data } = await axios.post('${API_URL}/api/messages', {
+      const { data } = await axios.post('http://localhost:5000/api/messages', {
         receiverId: ADMIN_ID,
         content: newMessage
       }, config);

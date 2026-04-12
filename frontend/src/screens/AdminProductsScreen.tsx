@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import API_URL from '../config';
 import { toast } from 'react-toastify';
 
 const AdminProductsScreen = () => {
@@ -11,7 +10,7 @@ const AdminProductsScreen = () => {
 
   const fetchProducts = async () => {
     try {
-      const { data } = await axios.get('${API_URL}/api/products');
+      const { data } = await axios.get('http://localhost:5000/api/products');
       setProducts(data.products || []);
       setLoading(false);
     } catch (error) {
@@ -29,7 +28,7 @@ const AdminProductsScreen = () => {
       try {
         const userInfo = JSON.parse(localStorage.getItem('userInfo')!);
         const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-        await axios.delete(`${API_URL}/api/products/${id}`, config);
+        await axios.delete(`http://localhost:5000/api/products/${id}`, config);
         toast.success('Product deleted successfully');
         fetchProducts();
       } catch (error: any) {

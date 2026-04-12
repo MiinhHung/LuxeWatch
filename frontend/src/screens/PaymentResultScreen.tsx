@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import API_URL from '../config';
 import { Loader2 } from 'lucide-react';
 
 const PaymentResultScreen = () => {
@@ -30,7 +29,7 @@ const PaymentResultScreen = () => {
 
       try {
         // Correct way: Send all VNPay params back to backend for signature verification
-        const { data } = await axios.get(`${API_URL}/api/payments/verify?${searchParams.toString()}`);
+        const { data } = await axios.get(`http://localhost:5000/api/payments/verify?${searchParams.toString()}`);
         
         if (data.success) {
            setSuccess(true);

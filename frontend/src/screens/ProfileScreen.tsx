@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import API_URL from '../config';
 import { toast } from 'react-toastify';
 
 const ProfileScreen = () => {
@@ -26,7 +25,7 @@ const ProfileScreen = () => {
       try {
         if (!userInfo) return;
         const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-        const { data } = await axios.get('${API_URL}/api/orders/myorders', config);
+        const { data } = await axios.get('http://localhost:5000/api/orders/myorders', config);
         setOrders(data);
         setLoading(false);
       } catch (error) {
@@ -45,7 +44,7 @@ const ProfileScreen = () => {
     }
     try {
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-      const { data } = await axios.put('${API_URL}/api/auth/profile', { fullName, email, password }, config);
+      const { data } = await axios.put('http://localhost:5000/api/auth/profile', { fullName, email, password }, config);
       
       // Update localStorage
       const updatedUserInfo = { ...userInfo, ...data.user, token: data.token };

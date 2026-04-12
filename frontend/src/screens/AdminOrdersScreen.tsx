@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import API_URL from '../config';
 import { toast } from 'react-toastify';
 import { Truck, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
 
@@ -39,7 +38,7 @@ const AdminOrdersScreen = () => {
       if (!userInfoString) return;
       const userInfo = JSON.parse(userInfoString);
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-      const { data } = await axios.get('${API_URL}/api/orders', config);
+      const { data } = await axios.get('http://localhost:5000/api/orders', config);
       setOrders(data);
       setLoading(false);
     } catch (error) {
@@ -58,7 +57,7 @@ const AdminOrdersScreen = () => {
     try {
       const userInfo = JSON.parse(localStorage.getItem('userInfo')!);
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-      await axios.put(`${API_URL}/api/orders/${id}/deliver`, {}, config);
+      await axios.put(`http://localhost:5000/api/orders/${id}/deliver`, {}, config);
       toast.success('Order marked as delivered');
       fetchOrders();
     } catch (error: any) {

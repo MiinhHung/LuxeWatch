@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import API_URL from '../config';
 import { toast } from 'react-toastify';
 import { ArrowLeft, Save, Loader2, Globe, Upload } from 'lucide-react';
 
@@ -27,7 +26,7 @@ const AdminBlogEditScreen = () => {
         try {
           const userInfo = JSON.parse(localStorage.getItem('userInfo')!);
           const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-          const { data } = await axios.get(`${API_URL}/api/blogs/id/${id}`, config);
+          const { data } = await axios.get(`http://localhost:5000/api/blogs/id/${id}`, config);
           
           setTitle(data.title);
           setSlug(data.slug);
@@ -75,7 +74,7 @@ const AdminBlogEditScreen = () => {
         },
       };
 
-      const { data } = await axios.post('${API_URL}/api/uploads', formData, config);
+      const { data } = await axios.post('http://localhost:5000/api/uploads', formData, config);
       setImage(data.url);
       toast.success('Image uploaded successfully');
     } catch (error: any) {
@@ -96,10 +95,10 @@ const AdminBlogEditScreen = () => {
       const payload = { title, slug, content, excerpt, image, category, author };
 
       if (isEditMode) {
-        await axios.put(`${API_URL}/api/blogs/${id}`, payload, config);
+        await axios.put(`http://localhost:5000/api/blogs/${id}`, payload, config);
         toast.success('Article updated');
       } else {
-        await axios.post('${API_URL}/api/blogs', payload, config);
+        await axios.post('http://localhost:5000/api/blogs', payload, config);
         toast.success('Article published');
       }
       navigate('/admin/blogs');
