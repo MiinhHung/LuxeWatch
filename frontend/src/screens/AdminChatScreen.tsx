@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Send, User, ChevronLeft } from 'lucide-react';
+import { Send, User } from 'lucide-react';
 
 interface Message {
   id: number;

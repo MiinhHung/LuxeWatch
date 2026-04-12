@@ -8,7 +8,7 @@ const PaymentResultScreen = () => {
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState('');
-  const orderId = searchParams.get('orderId');
+
   const responseCode = searchParams.get('vnp_ResponseCode');
   const method = searchParams.get('method');
 
